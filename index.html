@@ -16,20 +16,9 @@
 
 	<meta name="application-name" content="Avalaunch | Welcome to the Future of Fundraising.">
 		<link rel="stylesheet" href="css/main.css">
-<script src="https://cdn.jsdelivr.net/npm/color-thief@2.3.0/dist/color-thief.min.js" defer></script>
-<script>
-    window.onload = function() {
-        var img = new Image();
-        img.src = 'https://cdn.discordapp.com/icons/1263389616229322854/e67b5f772fc54fefc203ab3ef7f5095e.png?size=1024';
+<script src="https://unpkg.com/color-thief@2.3.0/dist/color-thief.min.js"></script>
 
-        img.onload = function() {
-            var colorThief = new ColorThief();
-            var dominantColor = colorThief.getColor(img);
-            console.log('Dominant color:', dominantColor);
-        };
-    };
-</script>
-<script src="color-thief.min.js"></script>
+<script src="./color-thief.min.js"></script>
 <script>
     window.onload = function() {
         var img = new Image();
@@ -471,6 +460,46 @@
     };
 </script>
 
+<script>
+    function getDominantColor(imageUrl, callback) {
+        var img = new Image();
+        img.src = imageUrl;
 
+        img.onload = function () {
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0, img.width, img.height);
+
+            // Получаем пиксели изображения
+            var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            var data = imageData.data;
+
+            var r = 0, g = 0, b = 0, count = 0;
+            for (var i = 0; i < data.length; i += 4) {
+                r += data[i];
+                g += data[i + 1];
+                b += data[i + 2];
+                count++;
+            }
+
+            // Рассчитываем средний цвет
+            r = Math.floor(r / count);
+            g = Math.floor(g / count);
+            b = Math.floor(b / count);
+
+            // Возвращаем результат
+            callback(`rgb(${r},${g},${b})`);
+        };
+    }
+
+    window.onload = function () {
+        getDominantColor('https://cdn.discordapp.com/icons/1007294687629029416/0e8b2fd860095454afe374091320cb05.png?size=1024', function(color) {
+            console.log('Dominant color:', color);
+            document.getElementById('mrc').style.color = color;  // Применяем цвет к тексту
+        });
+    };
+</script>
 </div></div>
 </body></html>
