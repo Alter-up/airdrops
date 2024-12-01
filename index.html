@@ -407,35 +407,47 @@
     /* выводим текущую дату и время на сайт в блок с id "current_date_time_block" */
     document.getElementById('current_date_time_block').innerHTML = date_time();
 </script>
-<script>
-    window.onload = function() {
-        // Получаем элементы изображения и текста
-        var img = document.getElementById("mr");
-        var mrcText = document.getElementById("mrc");
+<div class="HeaderContainer-LogoContainer">
+    <a class="LandingLogo" href="/" style="float: left;">
+        <!-- Логотип для десктопной версии -->
+        <img id="mr" style="border-radius:50px;" src="https://cdn.discordapp.com/icons/1007294687629029416/0e8b2fd860095454afe374091320cb05.png?size=1024" alt="logo" class="desktop-logo">
+    </a>
 
-        // Создаем экземпляр ColorThief
-        var colorThief = new ColorThief();
+    <div class="ProtocolTitleBanner__GradientTitle" style="float: left;">
+        <span id="mrc">mitosis</span>
+    </div>
+</div>
+
+<script>
+    // Функция для применения доминирующего цвета к тексту
+    function applyDominantColorToText() {
+        var img = document.getElementById("mr"); // Получаем элемент с изображением
+        var mrcText = document.getElementById("mrc"); // Получаем элемент с текстом
 
         // Убедимся, что изображение загружено
         if (img.complete) {
-            // Получаем доминирующий цвет изображения
-            var dominantColor = colorThief.getColor(img);
+            var colorThief = new ColorThief(); // Создаем новый объект ColorThief
+            var dominantColor = colorThief.getColor(img); // Извлекаем доминирующий цвет
+            var rgbColor = "rgb(" + dominantColor.join(",") + ")"; // Преобразуем в формат RGB
 
-            // Преобразуем полученный цвет в формат RGB
-            var rgbColor = "rgb(" + dominantColor.join(",") + ")";
-
-            // Применяем полученный цвет к тексту
-            mrcText.style.color = rgbColor;
+            mrcText.style.color = rgbColor; // Применяем цвет к тексту
         } else {
-            // Если изображение не загружено, ждем его загрузки
+            // Если изображение не загружено, ждем загрузки
             img.onload = function() {
+                var colorThief = new ColorThief();
                 var dominantColor = colorThief.getColor(img);
                 var rgbColor = "rgb(" + dominantColor.join(",") + ")";
-                mrcText.style.color = rgbColor;
+                mrcText.style.color = rgbColor; // Применяем цвет к тексту
             };
         }
     }
+
+    // Ждем загрузки всей страницы и вызываем функцию
+    window.onload = function() {
+        applyDominantColorToText(); // Вызываем функцию для изменения цвета текста
+    };
 </script>
+
 
 </div></div>
 </body></html>
