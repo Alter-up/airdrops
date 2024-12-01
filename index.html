@@ -17,6 +17,7 @@
 	<meta name="application-name" content="Avalaunch | Welcome to the Future of Fundraising.">
 		<link rel="stylesheet" href="css/main.css">
 
+<script src="https://cdn.jsdelivr.net/npm/color-thief@2.3.0/dist/color-thief.mjs"></script>
 
 </head>
 
@@ -406,7 +407,34 @@
     /* выводим текущую дату и время на сайт в блок с id "current_date_time_block" */
     document.getElementById('current_date_time_block').innerHTML = date_time();
 </script>
+<script>
+    // Дожидаемся полной загрузки изображения
+    window.onload = function() {
+        var img = document.getElementById("mr");
+        var mrcText = document.getElementById("mrc");
 
+        // Создаем экземпляр ColorThief
+        var colorThief = new ColorThief();
+
+        // Убедимся, что изображение загружено
+        if (img.complete) {
+            // Получаем доминирующий цвет изображения
+            var dominantColor = colorThief.getColor(img);
+
+            // Преобразуем полученный цвет в формат RGB
+            var rgbColor = "rgb(" + dominantColor.join(",") + ")";
+            // Применяем полученный цвет к тексту
+            mrcText.style.color = rgbColor;
+        } else {
+            // Если изображение не загружено, ждем его загрузки
+            img.onload = function() {
+                var dominantColor = colorThief.getColor(img);
+                var rgbColor = "rgb(" + dominantColor.join(",") + ")";
+                mrcText.style.color = rgbColor;
+            };
+        }
+    }
+</script>
 
 </div></div>
 </body></html>
