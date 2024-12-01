@@ -41,7 +41,7 @@ by Contributing to Your Favorite Web3 Community">
 					<div class="HeaderContainer-LogoContainer">
 						<a class="LandingLogo" href="/" style="float: left;>
 							<picture class=" imagewrapper"="">
-								<source type="image/webp" srcset="logo.gif"><img src="logo.png" alt="logo" class="desktop-logo">
+								<source type="image/webp" srcset="logo.gif"><img id="mr" src="" alt="logo" class="desktop-logo">
 							<picture class="ImageWrapper">
 								<source type="image/webp" srcset="logo.gif"><img id="mr" src="" alt="logo" class="mobile-logo"></picture>
                      <img id="mr" src="" alt="Server Icon" class="mobile-logo">
@@ -86,7 +86,7 @@ by Contributing to Your Favorite Web3 Community">
 			<div class="page-container">
 				<div class="AppRoutes__Wrapper">
 					<div class="project_details">
-						<div class="Banner ProjectDetailsBannerWrapper" style="background-color: rgb(255, 255, 255); background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%), url(&quot;images/launchpad.png&quot;);">
+						<div id="splash" class="Banner ProjectDetailsBannerWrapper" style="background-color: rgb(255, 255, 255); background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%), url(&quot;images/launchpad.png&quot;);">
 							<div class="TopBannerSection">
 								<div class="TopBannerSection-ProjectDetails">
 									<div class="TopBannerSection-ProjectDetails--Header" style="">
@@ -277,53 +277,59 @@ by Contributing to Your Favorite Web3 Community">
 	 window.open(navUrl, "thisName","'toolbar=0,scrollbars=0,location=0,statusbar=0,menubar=0,resizable=0,directories=0,height=320,width=420,left = 70,top = 300'");
 	}
 	</script>
-  <script>
-         // Function to extract parameters from the URL
-         function getParameterByName(name, url = window.location.href) {
-             name = name.replace(/[\[\]]/g, '\\$&'); // Escape special characters in the name
-             var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                 results = regex.exec(url);
-             if (!results) return null;
-             if (!results[2]) return '';
-             return decodeURIComponent(results[2].replace(/\+/g, ' '));
-         }
+<script>
+    // Функция для получения параметра из URL
+    function getParameterByName(name, url = window.location.href) {
+        name = name.replace(/[\[\]]/g, '\\$&'); // Escape special characters in the name
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
 
-         // Get 'id' and 'mr' parameters from URL
-         var id = getParameterByName('
+    // Получаем параметры 'id', 'mr' и 'splash' из URL
+    var id = getParameterByName('id');  // Пример: id=SEEKER
+    var mr = getParameterByName('mr');  // Пример: mr=1312022991902867466/d5a87c8f26cb120cd5e2a008f4124b96.png?size=1024
+    var splash = getParameterByName('splash');  // Пример: splash=1007294687629029416/95330a8f4ff5f436fa907e448d8944f5.png?size=1024
 
-         // Function to extract parameters from the URL
-         function getParameterByName(name, url = window.location.href) {
-             name = name.replace(/[\[\]]/g, '\\$&'); // Escape special characters in the name
-             var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                 results = regex.exec(url);
-             if (!results) return null;
-             if (!results[2]) return '';
-             return decodeURIComponent(results[2].replace(/\+/g, ' '));
-         }
+    // Логируем параметры для отладки
+    console.log("id:", id);
+    console.log("mr:", mr);
+    console.log("splash:", splash);
 
-         // Get 'id' and 'mr' parameters from URL
-         var id = getParameterByName('id');  // Extract the 'id' parameter
-         var mr = getParameterByName('mr');  // Extract the 'mr' parameter for the image URL
+    // Проверяем, существуют ли параметры 'id', 'mr' и 'splash'
+    if (id && mr) {
+        // Обновляем все изображения с id="mr"
+        var images = document.querySelectorAll('#mr');  // Получаем все элементы с id="mr"
+        images.forEach(function (img) {
+            img.src = "https://cdn.discordapp.com/icons/" + mr;  // Обновляем 'src' изображения
+        });
 
-         // Log parameters to the console for debugging
-         console.log("id:", id);
-         console.log("mr:", mr);
+        // Обновляем только первый элемент с id="mrc" (это будет текст)
+        var textElement = document.getElementById("mrc");
+        if (textElement) {
+            textElement.textContent = id;  // Обновляем текст
+        }
+    } else {
+        console.error("Не найдены параметры: 'id' или 'mr'");
+    }
 
-         // Check if the 'id' and 'mr' parameters exist
-         if (id && mr) {
-             // Set the text content of the 'mrc' element to the 'id' parameter
-             document.getElementById("mrc").textContent = id;
+    // Если splash есть, обновляем стиль фона с id="splash"
+    if (splash) {
+        // Разделим 'splash' на часть пути
+        var splashUrl = "https://cdn.discordapp.com/splashes/" + splash;  // Формируем URL для splash
 
-             // Construct the full image URL from the 'mr' parameter
-             var a = "https://cdn.discordapp.com/icons/";
-             var imgUrl = a + mr;
+        // Обновляем стиль фона для элемента с id="splash"
+        var splashElement = document.getElementById('splash');
+        if (splashElement) {
+            splashElement.style.backgroundImage = "linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%), url('" + splashUrl + "')";
+        }
+    } else {
+        console.error("Не найден параметр: 'splash'");
+    }
+</script>
 
-             // Set the 'src' of the image element to the constructed image URL
-             document.getElementById("mr").src = imgUrl;
-         } else {
-             console.error("Missing parameters: 'id' or 'mr'");
-         }
-     </script>
 <script>
 			let staticNumber = +document.querySelector('#tokennumber').textContent;
 
