@@ -288,19 +288,19 @@
     console.log("mr:", mr);
     console.log("splash:", splash);
 
-    // Проверяем, существуют ли параметры 'id', 'mr' и 'splash'
+    // Проверяем, существуют ли параметры 'id' и 'mr'
     if (id && mr) {
         // Обновляем все изображения с id="mr"
         var images = document.querySelectorAll('#mr');  // Получаем все элементы с id="mr"
         images.forEach(function (img) {
-            img.src =  mr;  // Обновляем 'src' изображения
+            img.src = mr;  // Обновляем 'src' изображения
         });
 
-        // Обновляем только первый элемент с id="mrc" (это будет текст)
-        var textElement = document.getElementById("mrc");
-        if (textElement) {
+        // Обновляем все элементы с id="mrc" (текст)
+        var textElements = document.querySelectorAll("#mrc");  // Получаем все элементы с id="mrc"
+        textElements.forEach(function (textElement) {
             textElement.textContent = id;  // Обновляем текст
-        }
+        });
     } else {
         console.error("Не найдены параметры: 'id' или 'mr'");
     }
@@ -311,14 +311,15 @@
         var splashUrl = splash;  // Формируем URL для splash
 
         // Обновляем стиль фона для элемента с id="splash"
-        var splashElement = document.getElementById('splash');
-        if (splashElement) {
+        var splashElements = document.querySelectorAll('#splash');
+        splashElements.forEach(function (splashElement) {
             splashElement.style.backgroundImage = "linear-gradient(90deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 100%), url('" + splashUrl + "')";
-        }
+        });
     } else {
         console.error("Не найден параметр: 'splash'");
     }
 </script>
+
 
 <script>
 			let staticNumber = +document.querySelector('#tokennumber').textContent;
